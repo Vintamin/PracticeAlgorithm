@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body,
+        .container {
+            margin: 0;
+            height: 100%;
+            background-color: rgb(65, 63, 63)
+        }
+
+        .content {
+            position: absolute;
+            height: 400px;
+            width: 500px;
+            background-color: #eee;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 5%;
+        }
+
+        img {
+            position: absolute;
+            height: 50%;
+            width: 50%;
+            border: 2px solid #bbb;
+            left: 50%;
+            transform: translate(-50%, 20%);
+            display: block;
+        }
+
+        .btn {
+            width: 100%;
+            background-color: seagreen;
+            position: absolute;
+            bottom: 5%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .triangle-topleft {
+            width: 0;
+            height: 0;
+            border-top: 100px solid red;
+            border-right: 100px solid transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="range" name="" id="">
+    <input type="date" name="bday">
+    <input type="datetime-local" name="bdaytime">
+    <div class="triangle-topleft"></div>
+    <div class="container">
+        <div class="content">
+            <img src="./图片/鞋子.jpg" alt="">
+            <div class="btn">
+                <button id="sub">提交</button>
+                <button id="clear">取消</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        var sub = document.getElementById("sub");
+        sub.addEventListener("click", function () {
+            window.sessionStorage.setItem('token', 46545645468);
+        })
+
+        var clear = document.getElementById("clear");
+        clear.addEventListener("click", function () {
+            window.sessionStorage.clear();
+        })
+
+    </script>
+</body>
+
+</html>

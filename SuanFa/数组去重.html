@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 解法一 */
+        function removeDuplicate(arr) {
+            if (arr === null || arr.length < 2) {
+                return arr;
+            };
+            let res = [],
+                exits = [];
+            for (let i = 0; i < arr.length; i++) {
+                let j = arr[i];
+                while (!exits[j]) {
+                    res.push(arr[i]);
+                    exits[j] = true;
+                }
+            }
+            return res;
+        }
+        //console.log(removeDuplicate([1, 3, 3, 3, 1, 5, 6, 7, 8, 1])) // [1,3,5,6,7,8]
+
+        /* 解法二  indexof*/
+        var arr = [1, -5, -4, 0, -4, 7, 7, 3];
+
+        function unique(arr) {
+            var arr1 = []; // 新建一个数组来存放arr中的值
+            for (var i = 0, len = arr.length; i < len; i++) {
+                if (arr1.indexOf(arr[i]) === -1) {
+                    arr1.push(arr[i]);
+                }
+            }
+            return arr1;
+        }
+
+
+        /* 解法三  ES6中的Set方法*/
+        let arr2 = new Set(arr);
+
+        /* 解法四 使用双重for循环，再利用数组的splice方法去重（ES5常用） */
+        function unique(arr) {
+            for (var i = 0, len = arr.length; i < len; i++) {
+                for (var j = i + 1, len = arr.length; j < len; j++) {
+                    if (arr[i] === arr[j]) {
+                        arr.splice(j, 1);
+                        j--; // 每删除一个数j的值就减1
+                        len--; // j值减小时len也要相应减1（减少循环次数，节省性能）   
+                        // console.log(j,len)
+
+                    }
+                }
+            }
+            return arr;
+        }
+
+        function removeSame3(arr) {
+            if (Array.isArray(arr)) {
+                let res = [];
+                res = arr.reduce((pre, cur, index) => {
+                    if (pre.indexOf(cur) == -1) {
+                        return pre.concat(cur)
+                    }
+                    return pre
+                }, [])
+                return res;
+            }
+        }
+        console.log(removeSame3(arr));
+    </script>
+</body>
+
+</html>

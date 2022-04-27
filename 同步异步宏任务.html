@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>ddf
+        <div>dfgg </div>
+    </p>
+    <script>
+        setTimeout(function () {
+            new Promise(function (resolve, reject) {
+                console.log('4.异步宏任务promise');
+                resolve();
+            }).then(function () {
+                console.log('6.异步微任务then')
+            })
+            console.log('5.异步宏任务');
+        }, 0)
+        new Promise(function (resolve, reject) {
+            console.log('1.同步宏任务promise');
+            resolve();
+        }).then(function () {
+            console.log('3.同步里的微任务then')
+        })
+        console.log('2.同步宏任务')
+
+
+      
+    </script>
+</body>
+
+</html>

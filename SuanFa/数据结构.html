@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div:first-child {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>我是h1</h1>
+    <div>我是div1</div>
+    <div>我是div2</div>
+
+
+
+
+
+    <canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;"></canvas>
+    <script>
+        /* 队列：先进先出 */
+        class Queue {
+            constructor() {
+                this.arr = [];
+            }
+            enqueue(element) {
+                this.arr.push(element);
+            }
+            dequeue() {
+                return this.arr.shift()
+            }
+        }
+
+
+
+        /* 栈：先进后出 */
+        class Stack {
+            constructor() {
+                this.arr = [];
+            }
+            push(element) { // 入栈
+                this.arr.push(element);
+            }
+            pop() { // 出栈
+                return this.arr.pop();
+            }
+        }
+
+        /* 链表： head指针指向第一个存入的元素节点，每个节点都有next属性指向一下一个元素节点，最后一个元素的指针指向null*/
+
+        //创建节点
+        class Node {
+            constructor(element) {
+                this.element = element; // 每个节点保存的内容
+                this.next = null; // 保存的指针，指向下一个节点
+            }
+        }
+        //构建链表
+        class LinkList {
+            constructor() {
+                this.head = null; // 表头 默认指向第一个节点，没有为null
+                this.length = 0;
+            }
+            append(element) {
+                // 追加节点
+                const node = new Node(element);
+                if (this.head == null) {
+                    this.head = node; // 第一个节点就是表头
+                } else {
+                    let current = this.head;
+                    // 从第一个节点查找到最后一个节点
+                    while (current.next) {
+                        current = current.next;
+                    }
+                    current.next = node; // 找到最后一个节点添加next指向新增节点
+                }
+                this.length++; // 每增加一个长度
+            }
+
+        }
+
+
+        /* 二叉树 */
+        class Node {
+            constructor(key) {
+                this.key = key;
+                this.left = null; // 左树
+                this.right = null; // 右树
+            }
+        }
+        class BinarySearchTree {
+            constructor() {
+                this.root = null;
+            }
+            insert(key) {
+                const newNode = new Node(key);
+                const insertNode = (node, newNode) => {
+                    // 看下是放在左边还是右边
+                    if (newNode.key < node.key) { // left
+                        if (node.left == null) {
+                            node.left = newNode;
+                        } else { // 如果节点已经有了那么继续像当前节点插入
+                            insertNode(node.left, newNode);
+                        }
+                    } else { // right
+                        if (node.right == null) {
+                            node.right = newNode;
+                        } else {
+                            insertNode(node.right, newNode);
+                        }
+                    }
+                }
+                if (!this.root) { // 如果根没有值 那么他就是根
+                    this.root = newNode;
+                } else { // 插到某一侧
+                    insertNode(this.root, newNode)
+                }
+            }
+        }
+        let binaryTree = new BinarySearchTree();
+        binaryTree.insert(8);
+        binaryTree.insert(3);
+        binaryTree.insert(10);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">按钮</button>
+    <input type="text" id="input">
+    <span id="span"></span>
+    <script>
+        /* 
+        $on函数：消息队列添加内容
+        $off函数：消息队列删除内容
+        $emit函数：触发消息队列中的内容
+        */
+
+        var btn = document.querySelector("#btn");
+        var input = document.getElementById("input")
+        var span = document.getElementById("span")
+        class Observer {
+            constructor() {
+                this.message = {};
+            }
+            //type：行为类型
+            //fn：行为发生后的应该做什么回调函数
+            $on(type, fn) {
+                //先判断有没有这个属性，如果没有这个属性，就初始化一个空的数组              
+                if (!this.message[type]) {
+                    this.message[type] = [];
+                }
+                //如果有这个属性，就往他的后面push一个新的fn
+                this.message[type].push(fn);
+            }
+            //取消事件
+            $off(type, fn) {
+                //分两种情况，是整个类型事件都解绑还是只解绑这个类型事件的一个回调函数
+                //先判断有没有订阅
+                if (!this.message[type]) return;
+                //判断没有fn这个参数,如果没有就删掉整个事件
+                if (!fn) {
+                    //或者是直接赋undefined
+                    //this.message[type] =undefined;
+                    delete this.message[type];
+                    return;
+                }
+                //如果有fn就仅仅过滤掉这个回调函数
+                this.message[type] = this.message[type].filter(item => item != fn)
+            }
+            $emit(type) {
+                if (!this.message[type]) {
+                    return
+                }
+                let args = Array.prototype.slice.call(arguments);
+                args.shift();
+                this.message[type].forEach(fn => fn.apply(this, args))
+            }
+        }
+
+        const person1 = new Observer();
+        //绑定事件
+        person1.$on("吃饭", eatA);
+        person1.$on("吃饭", eatB);
+        person1.$on("喝水", drink);
+
+        //解绑事件
+         person1.$off("吃饭",eatA)
+         person1.$off("吃饭")   
+        function eatA() {
+            console.log('我在吃米饭');
+        }
+
+        function eatB() {
+            console.log('我在吃面条');
+        }
+
+        function drink() {
+            console.log('我在喝水');
+        }
+        //触发事件
+        person1.$emit("吃饭")
+    </script>
+</body>
+
+</html>

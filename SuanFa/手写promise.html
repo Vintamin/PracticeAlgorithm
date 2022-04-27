@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 手写promise */
+        const PENDING = "PENDING";
+        const RESOLVED = "resolved";
+        const REJECTED = "rejected";
+
+        function MyPromise(excutor) {
+
+            // promise内部保存着状态值
+            this.status = PENDING;
+            this.data = null;
+            // then方法传进来的回调函数此保存
+            this.onResolvedList = [];
+            this.onRejectedList = [];
+
+            let resolved = (value) => {
+                // resolved函数只能执行一次，所以先判断状态是不是pending
+                if (this.status !== PENDING) {
+                    return;
+                }
+                // 变更状态为resolved
+                this.status = RESOLVED;
+                // 数据为传进来的值
+                this.data = value;
+
+                // 判断是否已经有onResolved回调已经传入，有则异步执行
+                if (this.onResolvedList.length > 0) {
+                    setTimeout(() => {
+                        this.onResolvedList.forEach(onResolved => {
+                            onResolved(value);
+                        });
+                    }, 0);
+                }
+            }
+
+            let rejected = (reason) => {
+                if (this.status !== PENDING) {
+                    return
+                }
+
+                this.status = REJECTED;
+                this.data = reason;
+
+                if (this.onRejectedList.length > 0) {
+                    setTimeout(() => {
+                        this.onRejectedList.forEach(onRejected => {
+                            onRejected(reason);
+                        });
+                    });
+                }
+            }
+
+            try {
+                // 执行器函数同步执行，且参数为promise内定义的resolve和rejected
+                excutor(resolved, rejected);
+            } catch (error) {
+                // 如果执行器函数出错直接执行rejected
+                this.rejected(error);
+            }
+        }
+
+
+        //then方法
+        MyPromise.prototype.then = function (onResolved, onRejected) {
+
+            // 如果没有传onResolved，则设置onResolved为返回value的函数
+            onResolved = typeof onResolved === "function" ? onResolved : value => value
+            // 如果没有传onRejected，则设置onRejected为抛处reason的函数
+            onRejected = typeof onRejected === "function" ? onRejected : reason => {
+                throw reason
+            }
+
+            return new MyPromise((resolved, rejected) => {
+
+                // 传入要执行的回调函数
+                let callBackExcu = (callback) => {
+                    try {
+                        let result = callback(this.data);
+                        if (result instanceof MyPromise) {
+                            // 如果回调返回值还是promise则then返回的promise的状态取决于回调的返回的promise，成功就执行resolved失败就执行rejected
+                            result.then(resolved, rejected);
+                        } else {
+                            // 如果回调的返回值不为promise则新的promise状态为resolved
+                            resolved(result)
+                        }
+                    } catch (error) {
+                        // 如果回调执行抛处异常，则新的promise状态为rejected
+                        rejected(error);
+                    }
+                }
+
+                if (this.status === PENDING) {
+                    // 如果状态为pending则保存回调且确保回调执行后能修改当前返回的promise的状态
+                    this.onResolvedList.push((value) => {
+                        callBackExcu(onResolved)
+                    });
+                    this.onRejectedList.push((reason) => {
+                        callBackExcu(onRejected)
+                    });
+                } else {
+                    // 如果状态不为pending则根据状态执行对应的回调，且修改当前promise的状态
+                    switch (this.status) {
+                        case REJECTED:
+                            // onRejected异步执行
+                            setTimeout(() => {
+                                callBackExcu(onRejected);
+                            });
+                            break;
+                        case RESOLVED:
+                            // onResolved异步执行
+                            setTimeout(() => {
+                                callBackExcu(onResolved);
+                            });
+                            break;
+                    }
+                }
+            });
+        }
+
+        //catch方法
+        MyPromise.prototype.catch = function (onRejected) {
+            // catch与then的不同点在于传入的参数不一样，不需要传onResolve
+            return this.then(null, onRejected);
+        }
+        //Promise.resolved
+        /* resolved会返回一个promise对象
+        如果传入的参数本就是一个primise对象则直接返回
+        如果是一个包含“then”方法的对象，返回新的promise对象，且状态取决于then函数的执行，如果then的执行中抛错，则新的promise状态为rejected
+        then的参数为两个回调函数resolved和rejected
+        如果传入参数value既不是promise的实例，也不是具备then函数的对象，则返回一个新的promise对象且改对象data就为value */
+
+        MyPromise.resolve = function (value) {
+            if (value instanceof MyPromise) {
+                //  如果传入的参数本就是一个primise对象则直接返回
+                return value;
+            } else if (typeof value.then === "function") {
+                return new MyPromise((resolved, rejected) => {
+                    try {
+                        // then的参数为两个回调函数resolved和rejected
+                        value.then(resolved, rejected);
+                    } catch (error) {
+                        // 如果then的执行中抛错，则新的promise状态为rejected
+                        rejected(error);
+                    }
+                });
+            } else {
+                // 如果传入参数value既不是promise的实例
+                return new MyPromise((resolved, rejected) => {
+                    resolved(value);
+                });
+            }
+        }
+
+        //Promise.rejected  接受参数reason，返回一个状态为rejected的data为reason的promise实例
+        MyPromise.reject = function (reason) {
+            return new MyPromise((resolved, rejected) => {
+                rejected(reason);
+            });
+        }
+
+        //Promise.all     
+   /*      接收的参数是需要满足可迭代协议,否则会抛错
+        返回值是个promise
+        如果传入的参数是个空的可迭代的对象，则返回一个状态为resolved的可promise实例，data为空数组, */
+
+
+    </script>
+
+</body>
+
+</html>

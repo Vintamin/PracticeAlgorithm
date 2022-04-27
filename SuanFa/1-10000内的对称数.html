@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //位数大于或等于两位.最小的对称数是11
+        //打印1-10000之间的对称数
+        function isSymmetryNum(start, end) {
+            for (var i = start; i < end + 1; i++) {
+                var num = +(i.toString().split("").reverse().join("")); //+号为了转换成数字类型,join是把数组变成字符串
+                if (num === i && i > 10) {
+                    console.log(i);
+                }
+
+            }
+        }
+        isSymmetryNum(1, 10000);
+
+ 
+    </script>
+</body>
+
+</html>

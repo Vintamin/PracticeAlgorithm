@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 如： get - element - by - id 转为 getElementById */
+
+        let str = 'get-element-by-id';
+        let arr = str.split('-');
+        for (let i = 1; i < arr.length; i++) {
+            arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].substring(1);
+        }
+        //console.log(arr.join('')); // getElementById
+        function a(str){
+            var res = str.split('-');
+            for (let i = 1; i < res.length; i++) {
+                res[i] = res[i].charAt(0).toUpperCase+arr[i].substring(1);              
+            }
+            return res.join("");
+        }
+        console.log(a('get-element-by-id'));
+    </script>
+</body>
+
+</html>

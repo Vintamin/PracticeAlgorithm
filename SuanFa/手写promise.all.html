@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*  Promise函数对象的all方法
+        返回一个promise对象，只有当所有promise都成功时返回的promise状态才成功 */
+
+        /* 1、 接收一个 Promise 实例的数组或具有 Iterator 接口的对象，
+
+        2、 如果元素不是 Promise 对象， 则使用 Promise.resolve 转成 Promise 对象
+
+        3、 如果全部成功， 状态变为 resolved， 返回值将组成一个数组传给回调
+
+        4、 只要有一个失败， 状态就变为 rejected， 返回值将直接传递给回调
+        all() 的返回值也是新的 Promise 对象 */
+        function promiseAll(promises) { //传入的参数是迭代器,数组是一个特殊的迭代器
+            return new Promise(function (resolve, reject) {
+                if (!Array.isArray(promises)) {
+                    return reject(new TypeError('arguments must be an array'));
+                }
+                var resolvedCounter = 0;
+                var promiseNum = promises.length;
+                var resolvedValues = new Array(promiseNum);
+                for (var i = 0; i < promiseNum; i++) {
+                    (function (i) {
+                        Promise.resolve(promises[i]).then(function (value) {
+                            resolvedCounter++
+                            resolvedValues[i] = value
+                            if (resolvedCounter == promiseNum) {
+                                return resolve(resolvedValues)
+                            }
+                        }, function (reason) {
+                            return reject(reason)
+                        })
+                    })(i)
+                }
+            })
+        }
+
+        function pAll(_promises) {
+            return new Promise((resolve, reject) => {
+                const promises = Array.from(_promises); //将迭代器转换为数组
+                const r = [];
+                const len = promises.length;
+                let count = 0; //记录resolve成功的个数
+                for (let i = 0; i < len; i++) { //数组中每项都resolve，存到r数组中
+                    Promise.resolve(promises[i]).then(
+                    o => { //如果传入的数组中有常数比如1,5，那么利用Promise.resolve()将其转换为promise
+                        r[i] = o;
+                        if (++count ===
+                            len) { //每一次resolve都会count+1，当count等于promises数量时，就表示成功全部resolve了。
+                            resolve(r)
+                        }
+                    }).catch(e => reject(e)) //只要有一个promise失败就执行reject（）
+                }
+            })
+        }
+
+        //手写race
+        Promise.race =  function(promises) {
+            if (!Array.isArray(promises)) {
+                throw new Error("promises must be an array")
+            }
+            return new Promise(function (resolve, reject) {
+                promises.forEach(p =>
+                    Promise.resolve(p).then(data => {
+                        resolve(data)
+                    }, err => {
+                        reject(err)
+                    })
+                )
+            })
+        }
+
+
+
+        //三个promise
+        const promise1 = Promise.resolve('promise1');
+        const promise2 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 2000, 'promise2');
+        });
+        const promise3 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 1000, 'promise3');
+        });
+
+        /* Promise.all([promise1, promise2, promise3]).then(function (values) {
+            console.log(values);
+        }); */
+        pAll([promise1, promise2, promise3, 6]).then(function (values) {
+            console.log(values);
+        }).catch(e => console.log(e))
+
+        //Promise.reject(2).then((r)=>{console.log(r)}).catch(e =>console.log(e))
+    </script>
+</body>
+
+</html>

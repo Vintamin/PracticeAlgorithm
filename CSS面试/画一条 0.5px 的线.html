@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>画一条0.5px的线</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5"/> -->
+    <style>
+        .line{
+            height:1px;
+            width: 200px;
+            transform: scaleY(0.5);/* 把Y轴缩小为0.5倍 */
+            transform-origin: 50% 100%;/* 指定变换的原点,要指定origin值, 要不然会模糊 
+                                    第一个参数值是将x轴位置移动到中心位置，第二个是将y轴位置移动到底部位置。
+                                            */
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="line">
+
+    </div>
+</body>
+</html>

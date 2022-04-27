@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //最大公约数
+        /* 除数 在a和b的范围内， 如果同时a和b处以除数的余等于0， 就将此时的除数赋值给res； 除数自增， 不断循环上面的计算， 更新res。
+        解法1： */
+        function greatestCommonDivisor(a, b) {
+            let divisor = 2,
+                res = 1;
+            if (a < 2 || b < 2) {
+                return 1;
+            };
+            while (a >= divisor && b >= divisor) {
+                if (a % divisor === 0 && b % divisor === 0) {
+                    res = divisor;
+                }
+                divisor++;
+            }
+            return res;
+        };
+        console.log(greatestCommonDivisor(8, 4)); // 4
+        console.log(greatestCommonDivisor(69, 169)); // 1
+        /* 解法2： 递归 */
+        /* 要求传参数时候a>b */
+        function greatestCommonDivisor(a, b) {
+            if (b === 0) {//0与一个数的最大公约数是这个数本身
+                return a;
+            } else {
+                return greatestCommonDivisor(b, a % b);
+            }
+        };
+
+        //最小公倍数
+        function gongbeishu(a, b) {
+            var c = a * b;
+            for (var i = 1; i <= c; i++) {
+                if (i % a == 0 && i % b == 0) {
+                    return i
+                }
+            }
+        }
+
+    </script>
+</body>
+
+</html>

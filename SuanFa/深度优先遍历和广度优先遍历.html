@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+/*         深度优先采用的是堆栈的形式, 即先进后出
+           广度优先则采用的是队列的形式, 即先进先出 */
+
+
+
+        const data = [{
+                name: 'a',
+                children: [{
+                        name: 'b',
+                        children: [{
+                            name: 'e'
+                        }]
+                    },
+                    {
+                        name: 'c',
+                        children: [{
+                            name: 'f'
+                        }]
+                    },
+                    {
+                        name: 'd',
+                        children: [{
+                            name: 'g'
+                        }]
+                    },
+                ],
+            },
+            {
+                name: 'a2',
+                children: [{
+                        name: 'b2',
+                        children: [{
+                            name: 'e2'
+                        }]
+                    },
+                    {
+                        name: 'c2',
+                        children: [{
+                            name: 'f2'
+                        }]
+                    },
+                    {
+                        name: 'd2',
+                        children: [{
+                            name: 'g2'
+                        }]
+                    },
+                ],
+            }
+        ]
+
+
+        let tree ={
+            value:1,
+            childLeft:{
+                value:2,
+                childLeft:{
+                    value:3
+                },
+                childRight:{
+                    value:4
+                }
+            },
+            childRight:{
+                value:5,
+                childLeft:{
+                    value:6
+                }
+            }
+        }
+        /* 深度优先不需要记住所有的节点, 所以占用空间小, 而广度优先需要先记录所有的节点占用空间大 */
+
+        //深度遍历（DFS）是以纵向的维度对dom树进行遍历，从一个dom节点开始，一直遍历其子节点，直到它的所有子节点都被遍历完毕之后在遍历它的兄弟节点。
+        //二叉树深度优先遍历包括前序、中序、后序
+        // 深度遍历, 使用递归
+        function getName(data) {
+            const result = [];
+            data.forEach(item => {
+                const map = data => {
+                    result.push(data.name);
+                    data.children && data.children.forEach(child => map(child));
+                }
+                map(item);
+            })
+            return result.join(',');
+        }
+
+       
+        //栈原始方式,先进后出
+        function ergodic(tree){
+            let list = [],stack = [tree];
+            while (stack.length != 0){
+                let target = stack.pop();
+                list.push(target.value);
+                if (target.childLeft) {
+                    stack.push(target.childLeft)
+                }
+                if (target.childRight) {
+                    stack.push(target.childRight)
+                }
+               
+            }
+            return list;
+        }
+
+
+
+        // 广度遍历(BFS), 创建一个执行队列, 当队列为空的时候则结束
+        //二叉树的层序遍历就是其中一种
+        //是以横向的维度对dom树进行遍历，从该节点的第一个子节点开始，遍历其所有的兄弟节点，
+        //再遍历第一个节点的子节点，完成该遍历之后，暂时不深入，开始遍历其兄弟节点的子节点。
+        function getName2(data) {
+            let result = [];
+            let queue = data;
+            while (queue.length > 0) {
+                [...queue].forEach(child => {
+                    queue.shift();
+                    result.push(child.name);
+                    child.children && (queue.push(...child.children));
+                });
+            }
+            return result.join(',');
+        }
+
+        //广度遍历:原始队列方式
+        function ergodic2(tree){
+            let list =[],queue=[tree];
+            while(queue.length != 0){
+                let target = queue.shift();
+                //console.log(target);
+                list.push(target.value);
+                if (target.childLeft){
+                    queue.push(target.childLeft);
+                }
+                if (target.childRight){
+                    queue.push(target.childRight);
+                }
+            }
+            return list;
+        
+        }
+        console.log(ergodic2(tree));
+
+        
+        //console.log(getName(data))
+        //console.log(getName2(data))
+    </script>
+</body>
+
+</html>

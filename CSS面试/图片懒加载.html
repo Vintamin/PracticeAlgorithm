@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+        div{
+            height: 100%;
+            width: 100%;
+            background-color: red;
+        }
+        img {
+            display: block;
+            height: 300px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div>123</div>
+    <img src="" alt="" data-src ="../图片/女装.jpg">
+    <img src="" alt="" data-src ="../图片/男装.jpg">
+    <img src="" alt="" data-src ="../图片/酒瓶子.jpg">
+    <script>
+        let imgList =[...document.querySelectorAll("img")];
+        let length = imgList.length;
+        const imgLazyLoad = function() {
+            let count =0;
+            return (function(){
+                let deleteIndexList =[];
+                imgList.forEach((img,index)=>{
+                    let rect =img.getBoundingClientRect();
+                    if(rect.top <window.innerHeight){
+                        img.src =img.getAttribute("data-src");
+                        console.log(img.getAttribute("data-src"));
+                        deleteIndexList.push(index);
+                        count++;
+                        if (count ==length) {
+                            document.removeEventListener("scroll",imgLazyLoad)
+                        }
+                    }
+                })
+                imgList =imgList.filter((img,index)=>!deleteIndexList.includes(index))//去除掉已经有的图片
+            })()
+        }
+        document.addEventListener("scroll",imgLazyLoad)
+    </script>
+</body>
+</html>

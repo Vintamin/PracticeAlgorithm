@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .left {
+            width: 200px;
+            height: 100px;
+            background-color: green;
+            margin: 20px;
+        }
+
+        .right {
+            height: 100px;
+            background-color: red;
+            margin: 10px;
+            position: absolute;
+            
+            /* 创建BFC */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="left"></div>
+    <div class="right">123</div>
+</body>
+
+</html>

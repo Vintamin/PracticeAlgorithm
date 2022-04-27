@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function Parent(name) {
+            this.name = name;
+            this.say = function () {
+                console.log("say")
+            }
+        }
+
+        /*   Parent.prototype = {
+              walk: function () {
+                  console.log("walk")
+              }
+          } */
+
+        function Mynew() {
+            console.log(arguments);
+            //1.拿到传入的参数中的第一个参数，即构造函数名Func
+            var Func = [].shift.call(arguments);
+            //2.创建一个空对象obj,并让其继承Func.prototype
+            var obj = Object.create(Func.prototype);
+            //3.执行构造函数，并将this指向创建的空对象obj
+            Func.apply(obj, arguments)
+            //4.返回创建的对象obj
+            return obj
+        }
+        let son1 = Mynew(Parent, "小明");
+        
+
+        //son1.walk();
+    </script>
+</body>
+
+</html>

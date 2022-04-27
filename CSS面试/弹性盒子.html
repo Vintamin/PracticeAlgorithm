@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between
+        }
+
+        header {
+            height: 60px;
+            background-color: blueviolet;
+            text-align: center;
+            line-height: 60px;
+        }
+
+        header span {
+            font-weight: bold;
+            font-size: 22px;
+            line-height: 60px;
+
+        }
+
+        main {
+            flex-grow: 1;
+            background: #ccc;
+            display: flex;
+
+        }
+
+        main>div:nth-child(1) {
+            height: 100%;
+            width: 30%;
+            background-color: coral;
+        }
+
+        main .div {
+            width: 70%;
+            height: 100%;
+        }
+
+        main .div div:nth-child(1) {
+            height: 40%;
+            width: 100%;
+            background-color: aqua;
+        }
+
+        main .div div:nth-child(2) {
+            height: 60%;
+            width: 100%;
+            background-color: saddlebrown;
+        }
+
+        footer {
+            height: 60px;
+            background: #383881;
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        footer div {
+            flex: auto;
+            background-color: yellowgreen;
+            line-height: 60px;
+        }
+
+        footer div:nth-child(-n+2) {
+            border-right: 2px dotted darkblue;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <span>购物中心</span>
+    </header>
+    <main>
+        <div>1</div>
+        <div class="div">
+            <div>2</div>
+            <div>3</div>
+        </div>
+
+    </main>
+    <footer>
+        <div>菜单</div>
+        <div>功能</div>
+        <div>其他</div>
+    </footer>
+</body>
+
+</html>

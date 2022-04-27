@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //斐波那契数列
+        function Fibonacci(n) {
+            if (n == 1) {
+                return 1;
+            } else if (n == 2) {
+                return 1;
+            } else {
+                return Fibonacci(n - 1) + Fibonacci(n - 2);
+            }
+        }
+
+        //斐波那契数列2(改进)闭包
+        //利用闭包特性把运算结果存储在数组里，避免重复计算
+        const Fibonacci2 = function () {
+            let arr = [0, 1];
+            var fib = function (n) {
+                var res = arr[n];
+                if (typeof res != 'number') {//也就是undefined
+                    arr[n] = fib(n - 1) + fib(n - 2);
+                    res = arr[n];
+                }
+                return res;
+            }
+            return fib;
+        }();
+
+        console.log(Fibonacci2(4));
+        //循环递推法
+        //从下往上计算，首先根据f(0)和f(1)算出f(2),再根据f(1)和f(2)算出f(3)，依次类推我们就可以算出第n项了,比递归的效率高很多
+        function fn(n) {
+            let current = 0;
+            let next = 1;
+            let temp;
+            for (let i = 0; i < n; i++) {
+                temp = current;
+                current = next;
+                next += temp;
+            }
+            return current;
+        }
+        //借助解构赋值省略temp中间变量
+        function fn(n) {
+            let current = 0;
+            let next = 1;
+            for (let i = 0; i < n; i++) {
+                [current, next] = [next, current + next];
+            }
+            return current;
+        }
+
+
+
+        var arr = [];
+
+        //判断时第几项菲波那切数列
+        function isFibonacci(n) {
+            for (let i = 1; i <= n; i++) {
+                arr.push(Fibonacci(i))
+            }
+            arr.some((item, index) => {
+                if (item == n) {
+                    console.log("是第" + `${index +1}`);
+                    return;
+                }
+            })
+        }
+        //isFibonacci(5);
+    </script>
+</body>
+
+</html>

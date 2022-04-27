@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let obj = {
+            name:"web",
+            age:28,
+            chiild:{
+                name:"son"
+            }
+        }
+        /* 方法一  递归*/
+        function deepClone(obj){
+            if (typeof obj !== 'object' || obj == null) {
+                return obj;
+            }
+            let result ;
+            if (Array.isArray(obj)) {
+                result = [];
+            }else{
+                result = {}
+            }
+            for (let key in obj) {
+                result[key] = deepClone(obj[key]);             
+            }
+            return result;
+        }
+        /* 方法二 利用JSON的方法*/
+        let clone1 = JSON.parse(JSON.stringify(obj))
+
+        /* 方法三 Object.assign()拷贝 
+            只能深拷贝一级嵌套的属性，对于二级属性就不是深拷贝了
+        */
+        let clone2 = Object.assign({},obj);
+        clone2.name = "克隆的"
+        clone2.chiild.name = "儿子"
+        console.log(obj);
+        console.log(clone2);
+    </script>
+</body>
+</html>

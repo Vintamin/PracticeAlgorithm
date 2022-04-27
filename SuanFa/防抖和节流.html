@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        .footer {
+            background-color: aqua;
+            height: 200%;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" id="input1">
+    <div class="footer">我是底部</div>
+    <script>
+        /* 防抖 通过setTimeout方式，在一定时间内将多次触发变成一次触发*/
+        function debounce(fn, wait) {
+            var timeout = null;
+            return function () {
+                if (timeout !== null) {//多次点击，只要timeout存在我就清除掉，然后就会重新声明计时
+                    clearTimeout(timeout);
+                }
+                timeout = setTimeout(fn, wait);
+            }
+        }
+
+        function handle1(e) {
+            console.log(e);
+            console.log('调用了防抖函数');
+        }
+        document.getElementById('input1').addEventListener("input", debounce2(handle1, 1000))
+        //document.addEventListener("scroll",debounce2(handle1, 1000))
+
+        //优化防抖实现只是第一次点击执行
+        function debounce2(fn,time) {
+            let timeout =null;
+            return function () {
+                let firstClick =!timeout;
+                if (timeout) {//用来处理清除定时器
+                    clearTimeout(timeout);
+                }
+                if (firstClick) {//利用第一次触发时timeout为null来作为是否为第一次的判断
+                    fn.apply(this,arguments);//这里使用apply是为了拿到外部的事件对象e和this.如果不用apply那么handle中打印出来的e是undefined                 
+                    //console.log('第一次');
+                }
+                timeout =setTimeout(()=>{//如果不是第一次那么timeout一定有值，就不会走第一次的步骤
+                    fn.apply(this,arguments);
+                    timeout =null;//当计时过后重新将timeout设为null，作为下次的第一次
+                },time)
+            }
+        }
+
+
+
+            //节流实现:一段时间内只执行一次某个操作，过了这段事件如果还有操作，继续执行新的操作
+               function throttle(func,delay){
+                   var timeout =null;
+                   return function(){
+                       if (timeout == null) {
+                           timeout = setTimeout(function(){//这里赋值timeout的目的是：在计时器期间setTimeout会返回一个值，这样就防止再次进入到if中
+                                                            //也就是说这部分的timeout=setTimeout赋值要比timeout=null要先被赋值，
+                               func();
+                               timeout = null;//为了下一次执行新的操作,这里设置null是为了再次进入if操作，
+                               
+                           },delay)
+                       }
+                   }
+               }
+            //   function handle2(){
+            //       console.log('我是节流函数');
+            //   }
+            //   addEventListener("scroll",throttle(handle2,1000));
+
+
+
+            //定时器+时间戳实现节流,实现第一次触发和最后一次都触发
+
+            function throttle2(fn, time) {
+                var timeout;
+                var pre = 0;
+                return function () {
+                    var now = new Date();
+                    if (timeout) {
+                        clearTimeout(timeout);
+                        timeout = null;
+                    } else if (now - pre > time ) {
+                        fn.apply(this, arguments);
+                        console.log('第一次和最后一次触发和定时后触发');
+                        pre = now;
+                    } else if (!timeout) {
+                        timeout = setTimeout(fn.bind(this, arguments), time)
+                    }
+
+                }
+            }
+
+
+        function handle() {
+            console.log(Math.random());
+        }
+        window.addEventListener('scroll', throttle2(handle, 3000));
+    </script>
+</body>
+
+</html>

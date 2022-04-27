@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>发送AJAX请求</title>
+    <script src="./Vue.js"></script>
+    <script src="./axios.min.js"></script>
+    
+</head>
+
+<body>
+    <div id="itany">
+        <button @click="send">发送AJAX请求</button>
+
+        <button @click="sendGet">GET方式发送AJAX请求</button>
+        <input type="text " v-focus>
+
+
+
+
+
+    </div>
+    <script>
+        let vm = new Vue({
+            el: '#itany',
+            data: {
+                user: {
+                    name: 'alice',
+                    age: 19
+                },
+            },
+            methods: {
+                send() {
+                    axios({
+                        method: 'get',
+                        url: 'https://jsonplaceholder.typicode.com/todos/1'
+                    }).then((res) => {
+                        console.log(res);
+                        console.log('成功结果是' + res)
+                    }, (err) => {
+                        console.log('失败结果是' + err);
+                    });
+                },
+                sendGet() {
+                    axios.get('server.php', {
+                            params: {
+                                name: 'alice',
+                                age: 19
+                            }
+                        })
+                        .then(resp => {
+                            console.log(resp.data);
+                        }).catch(err => { //
+                            console.log('请求失败：' + err.status + ',' + err.statusText);
+                        });
+                },
+            },
+            directives: {
+                focus: {
+                    inserted: function (el) {
+                        console.log(el);
+                        el.focus();
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

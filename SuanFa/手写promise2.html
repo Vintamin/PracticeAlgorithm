@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class Commitment {
+            static PENDING = '待定';
+            static FULFILLED = '成功';
+            static REJECTED = '拒绝';
+            constructor(func) {
+                this.status = Commitment.PENDING;
+                this.result = null; //存放结果
+                this.resolveCallbacks = []; //利用数组先入先出的原则,保存resolve函数
+                this.rejectCallbacks = []; //利用数组先入先出的原则,保存reject函数
+                try {
+                    //如果没有报错就正常执行
+                    func(this.resolve.bind(this), this.reject.bind(this)); //利用bind指定函数的this指向,防止外部再调用函数resolve或reject函数时引用到别this指向
+                } catch (error) {
+                    //如果报错就执行reject
+                    this.reject(error); //这里不需要给reject绑定this指向了，因为这里是直接执行而不是创建实例执行
+                }
+
+            }
+            resolve(result) {
+                //resolve要在事件循环末尾执行,因此需要加上setTimeout
+                setTimeout(() => {
+                    if (this.status == Commitment.PENDING) { //判断状态
+                        this.status = Commitment.FULFILLED;
+                        this.result = result;
+                        //遍历自身数组，看看里面有没有then保留下来的待执行函数
+                        this.resolveCallbacks.forEach(callbacks => callbacks(result));
+                    }
+                })
+
+            }
+            reject(result) {
+                //reject要在事件循环末尾执行,因此需要加上setTimeout
+                setTimeout(() => {
+                    if (this.status == Commitment.PENDING) { //判断状态
+                        this.status = Commitment.REJECTED;
+                        this.result = result;
+                        //遍历自身数组，看看里面有没有then保留下来的待执行函数
+                        this.rejectCallbacks.forEach(callbacks => callbacks(result));
+                    }
+                })
+
+            }
+            then(onFULFILLED, onREJECTED) { //写then函数,有两个函数参数，onFULFILLED表示状态成功时，onREJECTED表示状态失败时
+
+                //返回一个新的promise，实现链式操作
+                return new Commitment((resolve, reject) => {
+                    //要求传入的两个参数必须是函数,进行判断，如果是函数则执行对应的，如果不是则赋一个空函数。
+                    onFULFILLED = typeof onFULFILLED === "function" ? onFULFILLED : () => {};
+                    onREJECTED = typeof onREJECTED === "function" ? onREJECTED : () => {};
+                    //设置PENDING时应该做什么
+                    if (this.status == Commitment.PENDING) {
+                        //暂时先把then里的两个函数参数放到两个数组里面
+                        this.resolveCallbacks.push(onFULFILLED);
+                        this.rejectCallbacks.push(onREJECTED);
+                    }
+                    if (this.status == Commitment.FULFILLED) {
+                        //设置异步
+                        setTimeout(() => {
+                            onFULFILLED(this.result)
+                        })
+
+                    }
+                    if (this.status == Commitment.REJECTED) {
+                        onREJECTED(this.result);
+                    }
+                })
+
+            }
+        }
+
+        console.log('第一步');//1.先执行第一步
+        let commitment = new Commitment((resolve, reject) => {
+            console.log('第二步');//2.new的时候执行第二步
+            setTimeout(() => {//3.遇到异步操作
+                resolve("这次一定");//6.回过来再执行resolve函数，但是执行resolve时候发现内部也是setTimeout异步处理  8.最后再来执行resolve函数，改变状态，改变结果值，遍历刚刚保存的数组对象，然后执行函数对象
+                reject("下次一定");
+                console.log('第四步');//7.于是执行第四步
+            })
+        })
+        commitment.then(//4.来执行then方法，但发现状态是待定状态（因为没有执行resolve或reject函数呢），就把函数参数存到数组中
+            result => {
+                console.log(result)
+            },
+            result => {
+                console.log(result.message)
+            } //输出错误信息
+        )
+        console.log('第三步');//5.执行第三步
+
+      
+
+ 
+    </script>
+</body>
+
+</html>

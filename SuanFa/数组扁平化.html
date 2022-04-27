@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+  
+    </style>
+</head>
+
+<body>
+
+    <script>
+      
+
+        //数组扁平化
+        //[1, [2, 3, [4, 5]]]  ------>    [1, 2, 3, 4, 5]
+        /*实现一：递归*/
+        function flatArray(arr) {
+            var result = [];
+            for (var i = 0; i < arr.length; i++) {
+                if (Array.isArray(arr[i])) {
+                    result = result.concat(flatArray(arr[i]));
+                } else {
+                    result.push(arr[i]);
+                }
+            }
+            return result;
+        }
+        /*实现二：如果数组的元素均为数字，可以考虑使用toString()方法或者join()方法，在使用split()方法转化为数组。*/
+        function flatArray2(arr) {
+            //记得最后将得到的字符串元素转化为数字
+            return arr.toString().split(',').map(item => +item);
+            //return arr.join(',').split(',').map( item => +item);
+        }
+        /*实现三：使用ES6新增的扩展运算符*/
+        /*console.log([].concat(...[1, 2, [3, 4]])); => [1, 2, 3, 4]
+        console.log([].concat(...[1, [2, [3, 4]]])); =>[1, 2, [3, 4]]*/
+        function flatArray3(arr) {
+            while (arr.some(item => Array.isArray(item))) {
+                arr = [].concat(...arr);
+            }
+            return arr;
+        }
+        /*实现四：reduce*/
+        function flatArray4(arr) {
+            return arr.reduce((result, item) => {
+                return result.concat(Array.isArray(item) ? flatArray4(item) : item);
+            }, []);
+        }
+
+      
+
+        var arr = [1, 3, [5, 2],
+            [2, 3, [4, 5]]
+        ];
+
+        function a(arr) {
+            while (arr.some(item => Array.isArray(item))) {
+                arr = [].concat(...arr);
+            }
+            return arr;
+        }
+        console.log(...arr);
+    </script>
+</body>
+
+</html>

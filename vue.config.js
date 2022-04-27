@@ -1,0 +1,19 @@
+module.exports ={
+    devServer:{
+        //跨域
+        proxy:{
+            'api':{
+                //目标路径
+                //原始要访问的路径是https://www.bilibili.com/index/ding.json
+                //使用的时候url就写成api/index/ding.json
+                target:"https://www.bilibili.com/",
+                //允许跨域
+                changeOrigin:true,
+                //重写路径
+                pathRewrite:{
+                    '^/api':''
+                }
+            }
+        }
+    }
+}

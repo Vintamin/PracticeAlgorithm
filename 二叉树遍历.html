@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        body {
+            display: flex;
+        }
+
+        #div1::after {
+            content: "我是插入的内容"
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div id="div1">我是div</div>
+    </div>
+    <script>
+        //首先创建一棵二叉搜索树，所谓二叉搜索树，则左子树节点的值小于父节点，右子树的值大于父节点
+
+        class BinTreeNode { //创建树节点
+            constructor(data) {
+                this.data = data;
+                this.leftChild = null;
+                this.rightChild = null;
+            }
+        }
+
+
+        class BinaryTree {
+            constructor() {
+                this.node = null;
+            }
+            //插入
+            insert(node) { // 向节点中插入元素
+                let binTreeNode = new BinTreeNode(node);
+                if (this.node === null) {
+                    this.node = binTreeNode;
+                } else {
+                    let curr_node = this.node;
+                    let parent;
+                    while (true) {
+                        parent = curr_node;
+                        // 新加入的值如果小于父节点，则为左子树，否则为右子树
+                        if (node < curr_node.data) {
+                            curr_node = curr_node.leftChild;
+                            if (curr_node === null) {
+                                parent.leftChild = binTreeNode;
+                                break;
+                            }
+                        } else {
+                            curr_node = curr_node.rightChild;
+                            if (curr_node === null) {
+                                parent.rightChild = binTreeNode;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            //前序遍历
+            preorderTraversal(node) {
+                let res = [];
+                const preOrder = (node) => {
+                    if (node == null) return res;
+                    res.push(node.data);
+                    preOrder(node.leftChild);
+                    preOrder(node.rightChild);
+                };
+                preOrder(node);
+                return res;
+            }
+            //中序遍历
+            inorderTraversal(node) {
+                if (!node) return [];
+                const res = [];
+                const stack = [];
+                while (node || stack.length) {
+                    while (node) {
+                        stack.push(node)
+                        node = node.leftChild;
+                    }
+                    node = stack.pop();
+                    res.push(node.data);
+                    node = node.rightChild;
+                }
+                return res;
+            }
+            //后序遍历
+            postorderTraversal(node) {
+                // 初始化数据
+                const res = [];
+                const stack = [];
+                while (node || stack.length) {
+                    while (node) {
+                        stack.push(node);
+                        res.unshift(node.data);
+                        node = node.rightChild;
+                    }
+                    node = stack.pop();
+                    node = node.leftChild;
+                }
+                return res;
+            }
+        }
+
+        // 测试数据
+        var bt = new BinaryTree();
+        var nums = [12, 10, 19, 3, 2, 10, 15, 13];
+        for (var i = 0; i < nums.length; i++) {
+            bt.insert(nums[i]);
+        }
+        //console.log(bt.node);
+
+
+
+        // 测试
+        console.log('-------');
+        console.log(bt);
+        console.log('-------');
+        console.log(bt.preorderTraversal(bt.node));
+        console.log('-------');
+        console.log(bt.inorderTraversal(bt.node));
+        console.log('-------');
+        console.log(bt.postorderTraversal(bt.node));
+        
+    </script>
+
+
+
+
+
+</body>
+
+</html>

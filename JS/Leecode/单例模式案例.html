@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+     
+        .alert {
+            border: 1px solid red;
+            width: auto;
+            display: inline-block !important;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+        }
+
+       
+    </style>
+</head>
+
+<body>
+    <button id="Id">登录</button>
+    <script>
+        // 实现单例模式弹窗
+        var createWindow = (function () {
+            var div;
+            return function () {
+                if (!div) {
+                    div = document.createElement("div");
+                    div.innerHTML = "我是弹窗内容<pre> 这里是段落内容 </pre>哈哈哈";
+                    div.style.display = 'none';
+                    document.body.appendChild(div);
+                }
+                return div;
+            }
+        })();
+        document.getElementById("Id").onclick = function () {
+            // 点击后先创建一个div元素
+            var win = createWindow();
+            win.className = "alert"
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+        
+    0-9的数字，都可以称为回文。
+    不等于0，且尾数是0的数字，都不是回文。
+    负数都不是回文。
+
+        */
+        //类似“121”。“15951”
+        function isPalindrome(str) {
+            if (!str || str.length < 2) {
+                return;
+            }
+            for (let i = 0; i < str.length / 2; i++) {
+                if (str[i] !== str[str.length - 1 - i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+
+
+        console.log(isPalindrome("madama"))
+    </script>
+</body>
+
+</html>
