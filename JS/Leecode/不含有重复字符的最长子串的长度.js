@@ -1,44 +1,47 @@
 //滑动窗口及优化
+//时间复杂度是O(n)
+/* 
+做法：用两个指针代表窗口两端。右指针一直向右移动，到头时结束。每移动一格元素判断是否有重复的，把重复元素及以前的元素都删掉，
+*/
 var lengthOfLongestSubstring = function(s) {
     // 哈希集合，记录每个字符是否出现过
-    const occ = new Set();
+    const set = new Set();
     const n = s.length;
-    // rk右指针，初始值为 -1，相当于我们在字符串的左边界的左侧，还没有开始移动
-    //ans保存上次的无重复的字符串长度
-    let rk = -1, ans = 0;
+    //maxLength保存上次的无重复的字符串长度
+    let j = 0, maxLength = 0;
     for (let i = 0; i < n; ++i) {
-        if (i != 0) {
-            // 窗口左边界，左指针向右移动一格，移除一个字符，如果occ中有就delete没有的话就不delete
-            occ.delete(s.charAt(i - 1));
+        //set中没有的情况，并更新最大长度
+        if (!set.has(s[i])) {
+            set.add(s[i]);
+            maxLength = Math.max(maxLength, set.size)
+        }else{
+            while (set.has(s[i])) {
+                set.delete(s[j]);//删除之前位置的字符
+                j++
+            }
+            set.add(s[i])
         }
-        while (rk + 1 < n && !occ.has(s.charAt(rk + 1))) {//这里用来判断无重复
-            // 不断地移动右指针，但需要保证这两个指针对应的子串中没有重复的字符。
-            occ.add(s.charAt(rk + 1));
-            ++rk;
-        }
-        // 第 i 到 rk 个字符是一个极长的无重复字符子串
-        ans = Math.max(ans, rk - i + 1);
     }
-    return ans;
+    return maxLength;
 };
 
 //扩展版本，返回这个子字符串
 function maxSearch(s){
-    const occ =new Set();
+    const set =new Set();
     const n =s.length;
-    let rk= -1;
+    let j= -1;
     let res ="";
     for (let i = 0; i < n; i++) {
         if (i != 0) {
-            occ.delete(s.charAt(i-1))
+            set.delete(s.charAt(i-1))
         }
-        while (rk+1 <n && !occ.has(s.charAt(rk+1))) {
-            occ.add(s.charAt(rk+1));
-            rk++;
+        while (j+1 <n && !set.has(s.charAt(j+1))) {
+            set.add(s.charAt(j+1));
+            j++;
         }
-        if (res.length <[...occ].length) {
+        if (res.length <[...set].length) {
             res ='';
-            for(let val of occ){
+            for(let val of set){
                 res+=val;
             }
         }

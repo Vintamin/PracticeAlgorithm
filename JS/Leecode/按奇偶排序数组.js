@@ -1,4 +1,6 @@
 /* 
+    给你一个整数数组 nums，将 nums 中的的所有偶数元素移动到数组的前面，后跟所有奇数元素。
+    返回满足此条件的 任一数组 作为答案。
     输入：[3,1,2,4]
     输出：[2,4,3,1]
 */
@@ -26,3 +28,29 @@ function sortArrayByParity(arr){
     }
     return arr;
 }
+
+/* 
+    按奇偶排序数组II
+    给定一个非负整数数组 nums，  nums 中一半整数是 奇数 ，一半整数是 偶数 。
+    对数组进行排序，以便当 nums[i] 为奇数时，i 也是 奇数 ；当 nums[i] 为偶数时， i 也是 偶数 。
+    也就是交叉排序，一个偶数一个奇数
+    思路：
+        也是利用两个指针
+
+*/
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+ var sortArrayByParityII = function(nums) {
+    let j = 1;
+    for (let i = 0; i < nums.length; i+=2) { //遍历所有的偶数位置
+        if (nums[i]%2 === 1) {//如果是奇数
+            while (nums[j]%2 === 1 && j<nums.length) {
+                j+=2;
+            }//直到是偶数
+            [nums[i],nums[j]] = [nums[j],nums[i]];
+        }  
+    }
+    return nums;
+};

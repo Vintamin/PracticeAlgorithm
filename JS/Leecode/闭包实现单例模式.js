@@ -16,3 +16,4 @@ var b = new Head();
 console.log(a===b) // true
 var a = HeadClass(); // 报错,HeadClass is not defined
 
+

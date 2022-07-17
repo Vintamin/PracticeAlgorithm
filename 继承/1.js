@@ -20,7 +20,7 @@ function Child(hobby){
 }
 
 Child.prototype = new Parent();
-Child.prototype.constructor = Child;
+Child.prototype.constructor = Child;//如果不指定的话，Child.prototype.constructor则指向Parent
 
 let c1 =new Child('篮球')
 

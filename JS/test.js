@@ -790,6 +790,85 @@ function levelorder(root){
     }
 }
 
+//前序  中左右  递归
+function preOder(root){
+    const res = [];
+    if (!root) {
+      return res  
+    }
+    order(root);
+    return res;
 
+    function order(node){
+        res.push(node.val)
+        if (node.left) {
+            order(node.left)
+        }
+        if (node.right) {
+            order(node.right)
+        }
+    }
+}
+//前序  采用栈的思想 中左右
+function preorder2(root){
+    const res = [];
+    if (!root) {
+        return res;
+    }
+    const queue = [];
+    queue.push(root);
+    while(queue.length!=0){
+        let item = queue.pop();
+        res.push(item.val);
+        if (item.right) {
+            queue.push(item.right)
+        }
+        if (item.left) {
+            queue.push(item.left)
+        }
+    }
+    return res
+}
+
+//中序  递归  左中右
+function madOrder(root){
+    const res = [];
+    if (!root) {
+        return res;
+    }
+    order(root);
+    return res;
+    function order(root){
+        if (root.left) {
+            order(root.left)
+        }
+        res.push(root.val)
+        if (root.right) {
+            order(root.right)
+        }
+    }
+}
+
+//中序 采用栈的思想 左中右
+function madOrder2(root){
+    const res = [];
+    const stack = [];
+    let temp = root;
+    while (temp) {
+        stack.push(temp);
+        temp = temp.left;
+    }
+    while (stack.length>0) {
+        const item = stack.pop();
+        res.push(item.val);
+       if (item.right) {
+           const temp2 = item.right;
+           while (temp2) {
+               stack.push(temp2.right)
+               temp2 = temp2.left
+           }
+       }
+    }
+}
 
 

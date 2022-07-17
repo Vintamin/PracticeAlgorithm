@@ -17,7 +17,9 @@
         width: 20rem;
         height: 10rem;
         background-color: skyblue;
-        text-align: center;
+        position: absolute;
+        top: 50%;
+        margin-top:-2.5rem;
     }
 
     .hello {
@@ -31,40 +33,12 @@
     <div class="test">
         <div class="hello">hello JSPang</div>
     </div>
+
+
 </body>
 
 </html>
 <script>
-    function gethtmlfontsize() {
-        // 三个步骤:
-        // 1.获取html的宽,
-        let htmlwidth = document.documentElement.clientWidth || document.body
-            .clientWidth; //有些浏览器documentElement获取不到,那就使用后面的body
 
-        // 2.htmlDom
-        let htmlDom = document.getElementsByTagName("html")[0]
-
-        //这里是假设在640px宽度设计稿的情况下，1rem = 20px；
-        //可以根据实际需要修改
-        //3.设置根元素样式
-        htmlDom.style.fontSize = 20 * (htmlwidth / 640) + 'px';
-    }
-
-    // 调用一次
-    gethtmlfontsize();
-    // 添加监听事件(resize是监听的意思)
-    window.addEventListener('resize', gethtmlfontsize)
-
-
-    function add(a) {
-        function s(b) {
-            a = a + b
-            return s
-        }
-        s.toString = function () {
-            return a
-        }
-        return s
-    }
 
 </script>

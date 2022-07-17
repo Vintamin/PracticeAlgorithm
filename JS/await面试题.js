@@ -4,7 +4,8 @@ async function async1() {
 
     /* 这里为什么不先执行下面这句呢，是因为：
 对于await后面的值来说，分2个情况：不是promise对象和是promise对象
-如果不是 promise , await会阻塞后面的代码，先执行async外面的同步代码，同步代码执行完，再回到async内部，把这个非promise的东西，作为 await表达式的结果
+如果不是 promise , await会阻塞后面的代码，先执行async外面的同步代码，同步代码执行完，再回到async内部，
+把这个非promise的东西，作为 await表达式的结果
 如果它等到的是一个 promise 对象，await 也会暂停async后面的代码，先执行async外面的同步代码，等着 Promise 对象 fulfilled，
 然后把 resolve 的参数作为 await 表达式的运算结果。 */
 
