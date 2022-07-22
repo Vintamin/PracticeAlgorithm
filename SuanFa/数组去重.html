@@ -61,6 +61,57 @@
             return arr;
         }
 
+        //进阶版 假如数组中有对象
+        function isSameItem(obj1,obj2) {
+            if (typeof obj1 === "object" &&
+            typeof obj2 === "object" ) {
+                let keys1 = Object.keys(obj1);
+                let keys2 = Object.keys(obj2);
+                if (keys1.length !=keys2.length) {
+                    return false
+                }
+                for (let i = 0; i < keys1.length; i++) {
+                    const k1 = keys1[i];
+                    const k2 = keys2[i];
+                    if (k1!==k2) {
+                        return false
+                    }
+                    return isSameItem(obj1[k1],obj2[k2])
+        /*          if (typeof obj1[k1] == "object" && typeof obj2[k2] == "object") {
+                        return isSameItem(obj1[k1],obj2[k2])
+                    }else if(typeof obj1[k1] == "object" || typeof obj2[k2] == "object"){
+                        return false
+                    }else{
+                        return obj1[k1]===obj2[k2]
+                    } */
+                    
+                }
+            }
+            return obj1 === obj2
+        }
+        function removeSame(arr){
+            for (let i = 0; i < arr.length; i++) {
+                for (let j = i+1; j < arr.length; j++) {
+                    if (isSameItem(arr[i],arr[j])) {
+                        arr.splice(j,1);
+                        j--;
+                    }
+                }  
+            }
+            return arr
+        }
+        var arrList = [
+            {value: "aaa"},
+            {value: "bbb"},
+            {value: "ccc"},
+            55,
+            'dfd',
+            {value: "aaa"},
+            {value: "aaa"},
+            55,
+            {value: "ddd"},
+        ];
+
         function removeSame3(arr) {
             if (Array.isArray(arr)) {
                 let res = [];

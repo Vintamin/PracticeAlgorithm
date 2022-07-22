@@ -23,7 +23,7 @@
         if (row<0 || row>=grid.length || col<0 ||col>=grid[0].length || grid[row][col] === 0) {
             return 0;
         }
-        grid[row][col] = 0;
+        grid[row][col] = 0;//避免重复遍历
         let count = 1;//算上已经沉没掉的一个1
         //检查四周
         count += dfs(row-1,col);
