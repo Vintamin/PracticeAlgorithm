@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="menu">
+
+    </div>
+    <script>
+        let arr = [
+            {
+                type:'电子产品',
+                data:[
+                    {
+                        type:'手机',
+                        data:['IPhone手机','小米手机']
+                    },
+                    {
+                        type:'平板',
+                        data:['IPad','小米平板','华为平板']
+                    },
+                    {
+                        type:'智能手表',
+                        data:[]
+                    },
+                ]
+            },
+            {
+                type:'零食',
+                data:[
+                    {
+                        type:'水果',
+                        data:[]
+                    },
+                    {
+                        type:'咖啡',
+                        data:['雀巢咖啡']
+                    },
+                    {
+                        type:'肯德基',
+                        data:[]
+                    },
+                ]
+            }
+        ];
+        let menuDiv= document.querySelector('.menu')
+        //arr 数据数组  father 父级盒子
+        function addElement(arr,father){
+                arr.forEach(element=>{
+                let div = document.createElement('div');
+                div.innerHTML =`<span>${element.type || element}</span>`
+                father.appendChild(div);
+                element.data && addElement(element.data,div)
+                })
+
+        }
+        addElement(arr,menuDiv)
+    </script>
+</body>
+</html>

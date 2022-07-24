@@ -40,3 +40,34 @@ function sumFind2(arr,target){
 }
 
 console.log(sumFind2([2,7,11,15], 9));
+
+function insertSort(list){
+    for (let i = 1; i < list.length; i++) {
+        var preIndex = i-1;
+        var current = arr[i];
+        while (preIndex>=0 && arr[preIndex]>current) {
+            arr[preIndex+1] = arr[preIndex];
+            preIndex--;
+        }
+        arr[preIndex+1] = current
+    }
+    return list
+}
+
+function gapSort(list){
+    let gap = list.length
+    while (gap>1) {
+        gap = parseInt(gap/2)
+        for (let i = gap; i < list.length; i++) {
+            let preIndex= i-gap;
+            let temp = list[i];
+            while(preIndex>=0 && list[preIndex]>temp){
+                list[preIndex+gap] = list[preIndex];
+                preIndex-=gap;
+            }
+            list[preIndex+gap] = temp
+            
+        }
+    }
+
+}

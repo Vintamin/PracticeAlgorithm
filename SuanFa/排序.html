@@ -13,6 +13,7 @@
         let list = [5, 8, 2, 4, 6, 9, 7];
 
         /* 快速排序 :选取中间值，比较这个值，大的放右边，小的放左边*/
+        //递归
         //时间复杂度是O(n*ln[n])
         /* 
         T(n)=2T(n/2)+n
@@ -94,13 +95,13 @@
             while (gap > 1) {
                 gap = parseInt(gap / 2);
                 for (let i = gap; i < arr.length; i++) {
+                    let preIndex = i - gap;
                     let temp = arr[i];
-                    let j = i - gap;
-                    while (arr[j] > temp && j >= 0) {
-                        arr[j + gap] = arr[j];
-                        j -= gap;
+                    while (arr[preIndex] > temp && preIndex >= 0) {
+                        arr[preIndex + gap] = arr[preIndex];
+                        preIndex -= gap;
                     }
-                    arr[j + gap] = temp;
+                    arr[preIndex + gap] = temp;
                 }
             }
             return arr;
