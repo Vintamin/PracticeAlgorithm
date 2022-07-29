@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .trangle{
+            width:0px;
+            height:0px;
+            border-top:10px solid red; 
+            border-right:10px solid transparent; 
+            border-bottom:10px solid transparent; 
+            border-left:10px solid transparent;
+        }
+            div {
+                width: 100px;
+                height: 100px;
+                background-color: red;
+                margin-top: 20px;
+            }
+            .box1 { /* 圆 */
+            /* border-radius: 50%; */
+            border-radius: 50px;
+            }
+            .box2 { /* 半圆 */
+            height: 50px;
+            border-radius: 50px 50px 0 0;
+            }
+            .box3 { /* 椭圆 */
+            height: 50px;
+            border-radius: 50px/25px; /* x轴/y轴 */
+            }
+            .father{
+                height: 300px;
+                width: 300px;
+                background-color: darkgoldenrod;
+                position: relative;
+            }
+            .child{
+                width: 50px;
+                height: 100px;
+                top: 0;
+                bottom: 0;
+                margin: 0 auto;
+                position: absolute;
+                background-color: red;
+            }
+    </style>
+</head>
+<body>
+    <div class="trangle"></div>
+    <div class="box1"></div>
+
+    <div class="father">
+        <div class="child"></div>
+    </div>
+</body>
+</html>

@@ -5,7 +5,7 @@
  *    this.children = children;
  * };
  * 
- * 相当于层序遍历
+ * 
  */
 
 /**

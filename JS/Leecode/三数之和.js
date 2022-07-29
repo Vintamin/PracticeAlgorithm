@@ -27,7 +27,11 @@ function threeSum(nums){
       // 左指针 j
       let j=i+1 
       // 右指针k
-      let k=len-1   
+      let k=len-1
+      //由于已排序好，若有大于0的数据直接结束 
+      if (nums[i]>0) {
+        break;
+      }  
       // 如果遇到重复的数字，则跳过
       if(i>0&&nums[i]===nums[i-1]) {
           continue
