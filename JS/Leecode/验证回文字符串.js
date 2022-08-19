@@ -20,16 +20,27 @@
  * @param {string} s
  * @return {boolean}
  */
- var validPalindrome = function(s) {
-    let left = 0,right =s.length - 1;
-    while (left < right) {
-        if (s[left] !== s[right]) {
-            const result = validPalindrome(left+1,right) ||
-            validPalindrome(left,right-1);
-            return result; 
+ var validPalindrome = function (s) {
+    let left = 0
+    let right = s.length-1
+    while(left<right){
+        if(s[left]!==s[right]){
+        //这里就是所说的两种情况，要么前边删除一个字符，要么后边删除一个字符，这两种情况只要有一种符合回文就符合题目要求，说以要用或
+            return isPalindrome(s,left+1,right) || isPalindrome(s,left,right-1)
         }
-        left++;
-        right--;
+        left++
+        right--
     }
-    return true;
+    return true
 };
+//辅助函数的作用就是对删除字符之后对还未遍历的字符串进行遍历判断是否是回文
+function isPalindrome(s,left,right){
+    while(left<right){
+        if(s[left]!==s[right]){
+            return false
+        }
+        left++
+        right--
+    }
+    return true
+}

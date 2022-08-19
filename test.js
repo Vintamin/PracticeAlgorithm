@@ -352,11 +352,77 @@ function longPalindrome(s) {
         
     }
 }
-/**
- * @param {number[]} coins
- * @param {number} amount
- * @return {number}
- */
- var coinChange = function(coins, amount) {
-    
-};
+function promise1() {
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>resolve('第一个promise'),3000)
+    })
+}
+function promise2() {
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>resolve('第二个promise'),2000)
+    })
+}
+function promise3() {
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>resolve('第三个promise'),1000)
+    })
+}
+/* promise1().then(data=>{
+    console.log(data);
+    return promise2()
+}).then(data2=>{
+    console.log(data2);
+    return promise3()
+}).then(data3=>{
+    console.log(data3);
+}) */
+function promiseChain(list) {
+    return list.reduce((all,cur)=>{
+        return  all.then(data=>{
+            console.log(data);
+            return cur()
+        })
+    },Promise.resolve('初始'))
+}
+/* promiseChain([promise1,promise2,promise3]).then(d=>{
+    console.log('执行完啦');
+    console.log(d);
+}) */
+/* const arr = [1,2,3]
+arr.reduce((p,x)=>{
+    return p.then(()=>{
+        return new Promise((resolve,reject)=>{
+            setTimeout(()=>resolve(console.log(x)),1000)
+        })
+    })
+},Promise.resolve()) */
+
+function red() {
+    console.log('red');
+}
+function green() {
+    console.log('green');
+}
+function yellow() {
+    console.log('yellow');
+}
+
+function light(cb,time) {
+    return new Promise(r=>{
+        setTimeout(()=>{
+            cb();
+            r()
+        },time);
+    })
+}
+function run() {
+    light(red,3000).then(()=>{
+        return light(green,2000)
+    }).then(()=>{
+        return light(yellow,1000)
+    }).then(()=>{
+        return run()
+    })
+}
+//run()
+

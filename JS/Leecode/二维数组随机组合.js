@@ -29,3 +29,4 @@ function getValues(arr1, arr2) {
 
 let res = solution([['A','B'], ['a','b'], [1, 2]]);
 console.log(res);
+

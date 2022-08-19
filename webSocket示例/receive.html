@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Document</title>
+</head>
+<body>
+            <!-- 这个标签页是用来接收信息的 -->
+      <h1 >收到的消息:<p id="recMsg"></p></h1>
+      <script>
+            //建立到服务端webSoket连接
+             var ws=new WebSocket("ws://localhost:8080") 
+             //当连接被打开时，注册接收消息的处理函数
+             const recMsg = document.querySelector('#recMsg');
+             //blob转字符串
+              // data：指待读取blob数据
+            let reader = new FileReader();
+             ws.onopen=function(event) {
+            //当有消息发过来时，就将消息放到显示元素上
+                ws.onmessage=function(event) {
+                    //调用方法读取
+                    reader.readAsText(event.data) 
+                    reader.onload = event => {
+                        //读取之后进行操作的代码区域，event.currentTarget.result 指读取到的内容
+                        recMsg.innerHTML=event.currentTarget.result;  
+                    }
+                    
+                    
+                } 
+            }
+      </script>
+
+</body>
+</html>

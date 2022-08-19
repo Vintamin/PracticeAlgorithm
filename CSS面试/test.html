@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .content{
+            border: 2px solid black;
+            display: flex;
+        }
+        .left {
+            height: 100px;
+            background: #CF0;
+            width: 200px;
+        }
+
+        .right {
+            height: 200px;
+            background: #0FF;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="left">123</div>
+        <div class="right">456</div>
+    </div>
+    <script>
+            function debounce(fn, wait) {
+            var timeout = null;
+            return function () {
+                if (timeout !== null) {//多次点击，只要timeout存在我就清除掉，然后就会重新声明计时
+                    clearTimeout(timeout);
+                }
+                timeout = setTimeout(fn, wait);
+            }
+        }
+        function fn() {
+            console.log('防抖');
+        }
+        document.addEventListener('click',debounce(fn,1000))
+    </script>
+</body>
+</html>

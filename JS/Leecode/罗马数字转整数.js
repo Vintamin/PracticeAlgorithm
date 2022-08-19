@@ -50,4 +50,36 @@ var romanToInt = function(s) {
     return ans;
 };
 
+function luomaNum(s) {
+    const map =new Map();
+    map.set('I',1);
+    map.set('IV',4);
+    map.set('V',5);
+    map.set('IX',9);
+    map.set('X',10);
+    map.set('XL',40);
+    map.set('L',50);
+    map.set('XC',90);
+    map.set('C',100);
+    map.set('CD',400);
+    map.set('D',500);
+    map.set('CM',900);
+    map.set('M',1000);
+    const keys = Array.from(map.keys());
+    let res=0;
+    for (let i = 0; i < s.length; i++) {
+        const testTwoStr =s.substr(i,2);
+        const singleStr = s.substr(i,1);
+        if (keys.indexOf(testTwoStr)!=-1) {
+            //有这种情况
+            res+=map.get(testTwoStr);
+            i++;//额外加一次
+        }else{
+            res+=map.get(singleStr)
+        }
+    }
+    return res
+}
+console.log(luomaNum('LVIII'));
+
 

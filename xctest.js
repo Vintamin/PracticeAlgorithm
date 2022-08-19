@@ -6,8 +6,3 @@ const myReduce = (arr, callback, initialValue) => {
     }
     return all
 }
-
-const a = [1, 2, 3]
-a.reduce((pre, cur) => pre + cur, 0)
-
-myReduce(a, (pre, cur) => pre + cur, 0)

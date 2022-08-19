@@ -32,7 +32,7 @@ function sumFind2(arr,target){
         const x = arr[i];
         if (map.has(target - x)) {
             const index = map.get(target - x)
-            if (i != index) return [i, index]
+            if (i != index) return [i, index] //这个if判断必须要有，防止出现  [3,2,4]  6  输出[0,0]
         }
     }
     
