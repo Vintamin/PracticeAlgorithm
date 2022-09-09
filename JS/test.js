@@ -872,3 +872,28 @@ function madOrder2(root){
 }
 let arr = [1,1,3,5,'1',[1,2,2]];
 //输出[1,3,5,'1',[1,2]]
+
+function mockFetch(param) {
+    return new Promise((resovle) => {
+      setTimeout(() => {
+        resovle(param);
+      }, 2000);
+    });
+  }
+
+
+  var subsets = function(nums) {
+    let res = []
+    let path = []
+    function backTracking(startIndex){
+        res.push([...path])
+        for(let i =startIndex;i<nums.length;i++){
+            path.push(nums[i])
+            backTracking(i+1);
+            path.pop()
+        }
+    }
+    backTracking(0)
+    return res
+};
+subsets([1,2,3])

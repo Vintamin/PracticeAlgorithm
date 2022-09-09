@@ -7,41 +7,97 @@
     <title>Document</title>
     <style>
         .content{
-            border: 2px solid black;
-            display: flex;
+            height: 300px;
+            width: 300px;
+            background-color: aqua;
         }
-        .left {
+        .son{
             height: 100px;
-            background: #CF0;
+            width: 100px;
+            background-color: brown;
+            margin: 20px auto;
+        }
+        .left{
+            height: 400px;
+            width: 400px;
+            background-color: aqua;
+
+        }
+        .right{
+            height: 200px;
+            width: 600px;
+            background-color: brown;
+
+
+        }
+        .middle{
+            background-color: chartreuse;
+            height: 450px;
+            flex: 1;
+
+        }
+        .parent{
+            border: 1px solid black;
+     /*        height: 500px;
+            width: 500px; */
+ /*            left: 250px;
+            position: absolute;
+ */
+             /* overflow:hidden; */
+        }
+        .parent::after{
+            content: '';
+            clear: both;
+            display: block;
+        }
+        .float{
+            float: left;
+            background-color: aqua;
             width: 200px;
+            height: 150px;
+        }
+        .index{
+            width: 200px;
+            height: 200px;
+            background-color:rebeccapurple;
+            z-index: 2;
+        }
+        .indexson{
+            width: 100px;
+            height: 100px;
+            background-color: brown;
+            z-index: -1;
+            position: relative;
         }
 
-        .right {
-            height: 200px;
-            background: #0FF;
-            flex: 1;
-        }
     </style>
 </head>
 <body>
     <div class="content">
-        <div class="left">123</div>
-        <div class="right">456</div>
+        <div class="son">
+            <span class="spanText">123</span>
+        </div>
     </div>
+    <div class="index">
+        <div class="indexson">
+
+        </div>
+    </div>
+ <!--    <div class="content" onclick="outputName('ljk')">
+        <div class="left">left</div>
+        <div class="middle">middle</div>
+        <div class="right">right</div>
+    </div>
+    <div class="parent" >
+        <div class="float">
+            浮动子元素
+        </div>
+    </div> -->
+
     <script>
-            function debounce(fn, wait) {
-            var timeout = null;
-            return function () {
-                if (timeout !== null) {//多次点击，只要timeout存在我就清除掉，然后就会重新声明计时
-                    clearTimeout(timeout);
-                }
-                timeout = setTimeout(fn, wait);
-            }
-        }
-        function fn() {
-            console.log('防抖');
-        }
-        document.addEventListener('click',debounce(fn,1000))
+
+
+
     </script>
 </body>
 </html>

@@ -14,8 +14,15 @@
         开往 3 号加油站，你需要消耗 5 升汽油，正好足够你返回到 3 号加油站。
         因此，3 可为起始索引。
 
-*/
 
+*/
+/* 
+        贪心算法：
+        可以换一个思路，首先如果总油量减去总消耗大于等于零那么一定可以跑完一圈，说明 各个站点的加油站 剩油量rest[i]相加一定是大于等于零的。
+        每个加油站的剩余量rest[i]为gas[i] - cost[i]。
+        i从0开始累加rest[i]，和记为curSum，一旦curSum小于零，说明[0, i]区间都不能作为起始位置，起始位置从i+1算起，再从0计算curSum。
+
+*/
 var canCompleteCircuit = function(gas,cost){
     let totalGas = 0;//所有的油
     let totalCost = 0;//所有消耗的
@@ -30,7 +37,7 @@ var canCompleteCircuit = function(gas,cost){
     let currentGas = 0;//当前携带的油量
     let start = 0;//最终返回的结果,就是开始的地方
     for (let i = 0; i < gas.length; i++) {
-        currentGas = currentGas -cost[i] + gas[i];
+        currentGas = currentGas -(cost[i] - gas[i]);
         if (currentGas <0 ) {
             currentGas = 0;
             start = i+1;
@@ -38,3 +45,29 @@ var canCompleteCircuit = function(gas,cost){
     }
     return start;
 }
+
+/* 
+    贪心算法
+    可以换一个思路，首先如果总油量减去总消耗大于等于零那么一定可以跑完一圈，说明 各个站点的加油站 剩油量rest[i]相加一定是大于等于零的。
+    每个加油站的剩余量rest[i]为gas[i] - cost[i]。
+    i从0开始累加rest[i]，和记为curSum，一旦curSum小于零，说明[0, i]区间都不能作为起始位置，起始位置从i+1算起，再从0计算curSum。
+*/
+var canCompleteCircuit2 = function(gas, cost) {
+    const gasLen = gas.length
+    let start = 0
+    let curSum = 0
+    let totalSum = 0//总的剩余量
+
+    for(let i = 0; i < gasLen; i++) {
+        curSum += gas[i] - cost[i]
+        totalSum += gas[i] - cost[i]
+        if(curSum < 0) {
+            curSum = 0
+            start = i + 1
+        }
+    }
+
+    if(totalSum < 0) return -1
+
+    return start
+};

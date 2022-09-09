@@ -426,3 +426,25 @@ function run() {
 }
 //run()
 
+/* 
+function fn(a) {
+    console.log(a);//function
+    var a = 123;
+    console.log(a);//123
+    function a() { }
+
+    console.log(a);//function
+    console.log(b);//und
+    var b = function () { }
+    console.log(b);//function
+}
+fn(1); */
+function fn(a) {
+    console.log(a);//function
+    var a = 5;
+    function a(){
+    }
+    console.log(a)//5
+}
+fn(666)
+

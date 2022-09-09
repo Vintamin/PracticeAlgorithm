@@ -26,7 +26,7 @@ function knapsack(weightsArr, valuesArr, backpage){
     var n = weightsArr.length; // 盒子个数
     var f = new Array(n)  // 定义矩阵
     for(var i = 0 ; i < n; i++){
-        f[i] = [] // 共计五行数据
+        f[i] = [] // 共计n行数据
     }
    for(var i = 0; i < n; i++ ){ // i表示当前盒子
        for(var j = 0; j <= backpage; j++){ // j表示当前背包的重量
