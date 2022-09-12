@@ -882,18 +882,16 @@ function mockFetch(param) {
   }
 
 
-  var subsets = function(nums) {
-    let res = []
-    let path = []
-    function backTracking(startIndex){
-        res.push([...path])
-        for(let i =startIndex;i<nums.length;i++){
-            path.push(nums[i])
-            backTracking(i+1);
-            path.pop()
+  var numTrees = function(n) {
+    let dp = []
+    dp[0] = 1
+    dp[1] = 1
+    dp[2] = 2
+    for(let i =3;i<=n;i++){
+        for(let j =1;j<=i;j++){
+            dp[i]+=dp[j-1]*dp[i-j]
         }
     }
-    backTracking(0)
-    return res
+    return dp[n]
 };
-subsets([1,2,3])
+numTrees(3)

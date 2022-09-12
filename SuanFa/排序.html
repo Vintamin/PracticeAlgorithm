@@ -12,6 +12,42 @@
     <script>
         let list = [5, 8, 2, 4, 6, 9, 7];
 
+        /* 归并排序 */
+        /* 归并排序采用的是分治的思想，首先是“分”，将一个数组反复二分为两个小数组，直到每个数组只有一个元素；
+        其次是“治”，从最小数组开始，两两按大小顺序合并，直到并为原始数组大小， 
+        时间复杂度为 O(nlogn)*/
+        function mergeSort(arr) {
+            let len = arr.length;
+            if (len < 2) return arr;
+            let mid = Math.floor(len / 2);
+            let left = arr.slice(0, mid);
+            let right = arr.slice(mid);
+
+            return merge(mergeSort(left), mergeSort(right));//第一次肯定是只有一个元素，后序会逐渐拼接起来
+        }
+        //治，合并过程
+        function merge(left, right) {
+            let result = [];
+
+            while (left.length > 0 && right.length > 0) {
+                if (left[0] <= right[0]) {
+                result.push(left.shift());
+                } else {
+                result.push(right.shift());
+                }
+            }
+
+            while (left.length) result.push(left.shift());
+            while (right.length) result.push(right.shift());
+
+            return result;
+        }
+
+
+            var arr = [3,5,7,1,4,56,12,78,25,0,9,8,42,37];
+            var res = mergeSort(arr);
+            console.log(arr, res)
+
         /* 快速排序 :选取中间值，比较这个值，大的放右边，小的放左边*/
         //递归
         //时间复杂度是O(n*ln[n])

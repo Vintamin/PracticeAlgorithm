@@ -9,16 +9,26 @@
 
 时间复杂度是O(N)
 */
+/* 
+    动态规划
+    dp[i]表示以nums[i]结尾的连续子数组的最大和
+    状态转移方程:
+        如果dp[i-1]>0,dp[i] =dp[i-1]+nums[i];
+        如果dp[i-1]<=0,dp[i]=nums[i]
+    初始化：dp[0]=nums[0];
+    输出max（dp）
 
+*/
 
 function maxSubArray(nums) {
-    let pre = 0, maxAns = 0;
+    let pre = 0, maxAns = nums[0];
     nums.forEach((x) => {
         pre = Math.max(pre + x, x);//前面最大子数组的和
         maxAns = Math.max(maxAns, pre);//maxAns永远存的都是最大的值
     });
     return maxAns;
 };
+
 
 //扩展：同时输出这个子数组
 function maxSubArray2(arr){
