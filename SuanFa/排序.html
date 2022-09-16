@@ -48,29 +48,36 @@
             var res = mergeSort(arr);
             console.log(arr, res)
 
-        /* 快速排序 :选取中间值，比较这个值，大的放右边，小的放左边*/
+        /* 快速排序 */
+        /* 
+            从数列中挑出一个元素, 称为 “基准”（pivot）一般为头部和中间元素
+            重新排序数列, 所有元素比基准值小的摆放在基准前面, 所有元素比基准值大的摆在基准的后面（相同的数可以到任一边）。在这个分区退出之后, 该基准就处于数列的中间位置。这个称为分区（partition）操作；
+            递归地（recursive）把小于基准值元素的子数列和大于基准值元素的子数列排序；
+        */
+
         //递归
         //时间复杂度是O(n*ln[n])
         /* 
         T(n)=2T(n/2)+n
         */
-        function quickSort(list) {
-            if (list.length == 1 || list.length == 0) {//这一步一定要有
-                return list;
+        var quickSort = function(arr) {
+            if (arr.length <= 1) {
+                return arr;
             }
-            let index = Math.floor(list.length / 2); //向下取整，拿到中间元素的下标
-            let currentItem = list.splice(index, 1); //将中间元素拿出来
-            let leftList = [],
-                rightList = []; //定义左右两个数组，存放比元素小和大的元素
-            list.forEach(item => {
-                if (item <= currentItem) {
-                    leftList.push(item)
+            var pivotIndex = Math.floor(arr.length / 2);
+            var pivot = arr.splice(pivotIndex, 1);
+            var left = [];
+            var right = [];
+
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i] < pivot) {
+                left.push(arr[i]);
                 } else {
-                    rightList.push(item)
+                right.push(arr[i]);
                 }
-            })
-            return quickSort(leftList).concat(currentItem).concat(quickSort(rightList));
-        }
+            }
+            return quickSort(left).concat([pivot], quickSort(right));
+        };
         console.log('快速排序' + quickSort(list));
 
 
